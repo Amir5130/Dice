@@ -1,25 +1,77 @@
+
+setInterval(() => {
+  // get time indicator elements
+  let hours = document.getElementById('hours');
+  let minutes = document.getElementById('minutes');
+  let secondes = document.getElementById('seconds');
+  let ampm = document.getElementById('ampm');
+
+  // digits time indicator
+  let hh = document.getElementById('hh');
+  let mm = document.getElementById('mm');
+  let ss = document.getElementById('ss');
+
+
+  // dot time indicator
+  let dotH = document.querySelector('.h_dot');
+  let dotM = document.querySelector('.m_dot');
+  let dotS = document.querySelector('.s_dot');
+
+  // get current time
+  let h = new Date().getHours();
+  let m = new Date().getMinutes();
+  let s = new Date().getSeconds();
+  let ap = h >= 12 ? 'PM' : 'AM';
+
+  // convert to 12 hour format
+  if (h > 12) {
+    h = h - 12;
+  }
+
+  // add 0 before single digit
+  h = h < 10 ? '0' + h : h;
+  m = m < 10 ? '0' + m : m;
+  s = s < 10 ? '0' + s : s;
+
+  // set time and label
+  hours.innerHTML = h + 'Hours';
+  minutes.innerHTML = m + 'Minutes';
+  secondes.innerHTML = s + 'Seconds';
+  ampm.innerHTML = ap;
+
+  // set time circular indicator
+  hh.style.strokeDashoffset = 440 - (440 * h) / 12;
+  mm.style.strokeDashoffset = 440 - (440 * m) / 60;
+  ss.style.strokeDashoffset = 440 - (440 * s) / 60;
+
+  // set dot time position indicator
+  dotH.style.transform = `rotate(${h * 30}deg)`;
+  dotM.style.transform = `rotate(${m * 6}deg)`;
+  dotS.style.transform = `rotate(${s * 6}deg)`;
+}, 1000);
+
 window.addEventListener( 'DOMContentLoaded', function () {
 
-    const buttonRoolDice = document.querySelector( '.dice-roll' );
+  const buttonRoolDice = document.querySelector( '.dice-roll' );
 
 function rollDice () {
 
-    const diceSide1 = document.getElementById( 'dice-side-1' );
-    const diceSide2 = document.getElementById( 'dice-side-2' );
-    const status = document.getElementById( 'status' );
+  const diceSide1 = document.getElementById( 'dice-side-1' );
+  const diceSide2 = document.getElementById( 'dice-side-2' );
+  const status = document.getElementById( 'status' );
 
-    const side1 = Math.floor( Math.random() * 6 ) + 1;
-    const side2 = Math.floor( Math.random() * 6 ) + 1;
-    const diceTotal = side1 + side2;
+  const side1 = Math.floor( Math.random() * 6 ) + 1;
+  const side2 = Math.floor( Math.random() * 6 ) + 1;
+  const diceTotal = side1 + side2;
 
-    diceSide1.innerHTML = side1;
-    diceSide2.innerHTML = side2;
+  diceSide1.innerHTML = side1;
+  diceSide2.innerHTML = side2;
 
-    status.innerHTML = 'You rolled ' + diceTotal + '.';
+  status.innerHTML = 'You rolled ' + diceTotal + '.';
 
-    if ( side1 === side2 ) {
-        status.innerHTML += ' Doubles! You get a free turn!';
-    }
+  if ( side1 === side2 ) {
+      status.innerHTML += ' Doubles! You get a free turn!';
+  }
 }
 
 buttonRoolDice.addEventListener( 'click', rollDice, false );
@@ -29,13 +81,5 @@ buttonRoolDice.addEventListener( 'click', rollDice, false );
 const menuToggle = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('.navigation');
 menuToggle.onclick = () => {
-  navigation.classList.toggle('open');
+navigation.classList.toggle('open');
 }
-
-const listItems = document.querySelectorAll('.list-item');
-listItems.forEach(item => {
-  item.onclick = () => {
-    listItems.forEach(item => item.classList.remove('active'));
-    item.classList.add('active');
-  }
-})
